@@ -1,4 +1,4 @@
-# VisionForge AI
+# Gesture AI
 
 An end-to-end computer vision platform that provides multiple AI-powered image and video analysis tools through a unified web interface and FastAPI backend.
 
@@ -78,4 +78,4 @@ Results (Images, Videos, JSON)
 
 ## Vision
 
-VisionForge AI is designed as a unified computer vision platform that combines detection, segmentation, tracking, generative AI, and 3D vision into a single scalable application.
+Gesture AI is designed as a unified computer vision platform that combines detection, segmentation, tracking, generative AI, and 3D vision into a single scalable application.
