@@ -1,81 +1,56 @@
-# Gesture AI
+# Gesture AI Backend
 
-An end-to-end computer vision platform that provides multiple AI-powered image and video analysis tools through a unified web interface and FastAPI backend.
+This is the FastAPI backend for the Gesture AI SaaS Platform. It provides a clean, simple, and modular architecture designed for real-time hand gesture interaction, style transformation, background removal, and AI image generation.
 
-## Features
+## Project Structure
 
-- 🎯 Object Detection (YOLOv8)
-- 📊 Object Tracking & Counting
-- 🖼️ Semantic Segmentation
-- ✂️ Instance Segmentation
-- 📝 Image Captioning
-- 🎨 AI Image Generation & Enhancement
-- 📏 Monocular Depth Estimation
-- 🧹 Background Removal
-- 😀 3D Face Morphing
-- 🧑 3D Avatar Generation
+The project is organized following Domain-Driven Design and layered architecture principles:
 
-## Tech Stack
+- `app/api/`: API Routers and endpoints.
+- `app/core/`: Core application configuration, Database connection, Cloudinary init.
+- `app/models/`: Database ORM models using SQLModel.
+- `app/schemas/`: Pydantic models for API request/response validation.
+- `app/services/`: Business logic layer.
+- `app/ai/`: Placeholders for AI model implementation.
+- `app/utils/`: Generic helper functions.
 
-### AI & Computer Vision
-- YOLOv8
-- ByteTrack
-- SegFormer
-- BLIP / BLIP-2
-- Stable Diffusion / FLUX
-- Depth Anything / MiDaS
-- MediaPipe
-- OpenCV
-- NumPy
-- Pillow
-- rembg
+## Prerequisites
 
-### Backend
-- FastAPI
-- Uvicorn
-- Python
+- Python 3.10+
+- `pip` or another package manager
 
-### Frontend
-- React
-- Axios
+## Configuration
 
-## Architecture
+The application uses Pydantic Settings to manage configuration via environment variables.
 
-```text
-User
-  │
-  ▼
-React Frontend
-  │
-  ▼
-FastAPI Backend
-  │
-  ▼
-AI Model Inference
-  │
-  ▼
-Results (Images, Videos, JSON)
-```
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-## Deployment
+2. Update the values in `.env`:
+   - **Database**: By default, it uses a local SQLite database (`sqlite:///./database.db`) for easy development. For production, change `DATABASE_URL` to a PostgreSQL connection string (e.g., `postgresql+psycopg2://user:password@localhost/dbname`).
+   - **Cloudinary**: Fill in `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` to enable image/video uploading.
 
-- **Frontend:** Vercel / Netlify
-- **Backend:** Railway / Render / Hugging Face Spaces
-- **Model Storage:** Hugging Face Hub
+## Installation & Running Locally
 
-## Roadmap
+1. Create a virtual environment (optional but recommended):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # or `venv\Scripts\activate` on Windows
+   ```
 
-- [ ] Background Removal
-- [ ] Object Detection
-- [ ] Object Tracking
-- [ ] Semantic Segmentation
-- [ ] Instance Segmentation
-- [ ] Image Captioning
-- [ ] Image Generation
-- [ ] Depth Estimation
-- [ ] 3D Face Morphing
-- [ ] 3D Avatar Generation
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Vision
+3. Run the development server:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
 
-Gesture AI is designed as a unified computer vision platform that combines detection, segmentation, tracking, generative AI, and 3D vision into a single scalable application.
+The server will automatically start on `http://127.0.0.1:8000`. The Swagger UI documentation is available at `http://127.0.0.1:8000/docs`.
+
+On startup, the app automatically initializes the database tables and Cloudinary based on your environment variables.
