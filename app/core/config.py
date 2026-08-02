@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     CLOUDINARY_API_SECRET: str = ""
     CLOUDINARY_URL: Optional[str] = None # Optional, Cloudinary SDK can use this directly
     
+    # bulk image upload config
+    MAX_BULK_IMAGES: int = 50
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

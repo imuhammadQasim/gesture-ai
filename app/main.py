@@ -42,5 +42,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Add a root endpoint
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Gesture AI API!"}
 
-app.include_router(api_router)
+app.include_router(api_router,  prefix="/api/v1")
+
