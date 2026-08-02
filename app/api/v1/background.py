@@ -8,12 +8,12 @@ router = APIRouter()
 @router.post("/standard")
 async def remove_background_standard(file: UploadFile = File(...)):
     image_bytes = await file.read()
-    return background_service.process_standard(image_bytes)
+    return background_service.process_standard(image_bytes, file.filename)
 
 @router.post("/deep")
 async def remove_background_deep(file: UploadFile = File(...)):
     image_bytes = await file.read()
-    return background_service.process_deep(image_bytes)
+    return background_service.process_deep(image_bytes, file.filename)
 
 @router.post("/bulk")
 async def remove_background_bulk(background_tasks: BackgroundTasks, file: UploadFile = File(...)):

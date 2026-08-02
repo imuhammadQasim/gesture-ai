@@ -8,21 +8,33 @@ from fastapi.responses import StreamingResponse
 import threading
 from app.ai.background_removal.rembg import extract_subject, build_dual_shadow, composite
 from app.core.config import settings
+from app.services.cloudinary_service import cloudinary_service
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def process_standard(image_bytes: bytes) -> StreamingResponse:
+def process_standard(image_bytes: bytes, filename: str = None) -> dict:
     subject_image = extract_subject(image_bytes)
     
     img_io = io.BytesIO()
     subject_image.save(img_io, format="PNG")
     img_io.seek(0)
     
-    return StreamingResponse(img_io, media_type="image/png")
+    upload_response = cloudinary_service.upload_image(
+        file_obj=img_io, 
+        user_id="test_user", # Using test_user for now until auth is added
+        module_name="background_removal",
+        filename=filename
+    )
+    
+    return {
+        "message": "Background removed successfully",
+        "url": upload_response.get("secure_url"),
+        "public_id": upload_response.get("public_id")
+    }
 
-def process_deep(image_bytes: bytes) -> StreamingResponse:
+def process_deep(image_bytes: bytes, filename: str = None) -> dict:
     subject = extract_subject(image_bytes)
     shadow = build_dual_shadow(subject)
     
@@ -36,7 +48,18 @@ def process_deep(image_bytes: bytes) -> StreamingResponse:
     result.save(img_io, format="PNG")
     img_io.seek(0)
     
-    return StreamingResponse(img_io, media_type="image/png")
+    upload_response = cloudinary_service.upload_image(
+        file_obj=img_io, 
+        user_id="test_user", 
+        module_name="background_removal",
+        filename=filename
+    )
+    
+    return {
+        "message": "Background removed (deep) successfully",
+        "url": upload_response.get("secure_url"),
+        "public_id": upload_response.get("public_id")
+    }
 
 def _process_single_image(image_bytes: bytes, filename: str, output_dir: str):
     
