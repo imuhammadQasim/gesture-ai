@@ -1,4 +1,4 @@
-# Gesture AI Backend
+# AI Backend
 
 This is the FastAPI backend for the Gesture AI SaaS Platform. It provides a clean, simple, and modular architecture designed for real-time hand gesture interaction, style transformation, background removal, and AI image generation.
 
